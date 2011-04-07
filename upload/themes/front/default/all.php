@@ -10,6 +10,39 @@
 	
 	<p><?php echo $row->cat_description; ?></p>
 	
+	
+	<?php if ($subcats[$row->cat_id]->num_rows() > 0): ?>
+		<table width="100%" border="0" id="categories_table">
+			<tr>
+				<th><h3>Subcategories</h3></th>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%">
+						<?php 
+						$perline = 2;
+						$set = $perline;
+						foreach($subcats[$row->cat_id]->result() as $child): 
+							if(($set%$perline) == 0){
+							  echo  "<tr>";
+							}
+						?>
+							<td width="33%">
+								<div class="subCategory"><a href="<?php echo site_url("category/".$child->cat_uri."/"); ?>"><?php echo $child->cat_name; ?></a></div>
+							</td>
+						<?php
+							if((($set+1)%$perline) == 0){
+								echo "</tr>";
+							}
+							$set = $set+1;
+						?>
+						<?php endforeach; ?>
+					</table>
+				</td>
+			</tr>
+		</table>
+	<?php endif; ?>
+	
 	<?php  if (isset($articles[$row->cat_id]) && $articles[$row->cat_id]->num_rows() > 0): ?>
 		<ul class="articles">
 		<?php foreach($articles[$row->cat_id]->result() as $row): ?>

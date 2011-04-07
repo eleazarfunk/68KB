@@ -65,6 +65,10 @@ class Category extends Controller
 				$id = $data['cat']->cat_id;
 				$data['title'] = $data['cat']->cat_name. ' | '. $this->init_model->get_setting('site_name');
 				$data['parents'] = $this->category_model->get_categories_by_parent($id);
+				
+				//format description
+				$data['cat']->cat_description = $this->category_model->glossary($data['cat']->cat_description);
+				
 				//pagination
 				$this->load->library('pagination');
 
